@@ -81,13 +81,13 @@ export default function AccountPage() {
 
       <div className="mt-8 grid gap-6 lg:grid-cols-12">
         {/* Pass + billetera */}
-        <div className="space-y-8 lg:col-span-5 xl:col-span-4">
+        <div className="min-w-0 space-y-8 lg:col-span-5 xl:col-span-4">
           <KoraPass member={member} />
           <CardsManager />
         </div>
 
         {/* Stats + historial */}
-        <div className="space-y-6 lg:col-span-7 xl:col-span-8">
+        <div className="min-w-0 space-y-6 lg:col-span-7 xl:col-span-8">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Stat label="Nivel" value={member.tier} icon="leaf" />
             <Stat label="Puntos" value={member.points.toLocaleString("es-CO")} icon="spark" />
