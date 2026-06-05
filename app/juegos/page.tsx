@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import HarvestGame from "@/components/HarvestGame";
+import MemoryGame from "@/components/MemoryGame";
 import PasilloCharacter from "@/components/PasilloCharacter";
 
 export const metadata: Metadata = {
@@ -37,44 +38,41 @@ export default function JuegosPage() {
         </p>
       </div>
 
-      {/* El juego */}
+      {/* Juego 01 — La Cosecha */}
       <div className="mt-10">
-        <HarvestGame />
+        <p className="kora-eyebrow">Juego 01</p>
+        <h2 className="mt-1 text-2xl font-bold tracking-tight text-moss">La Cosecha</h2>
+        <div className="mt-4">
+          <HarvestGame />
+        </div>
       </div>
 
-      {/* Próximos juegos — teasers */}
+      {/* Juego 02 — Memoria del Mercado */}
+      <div className="mt-16">
+        <p className="kora-eyebrow">Juego 02</p>
+        <h2 className="mt-1 text-2xl font-bold tracking-tight text-moss">Memoria del Mercado</h2>
+        <div className="mt-4">
+          <MemoryGame />
+        </div>
+      </div>
+
+      {/* Próximos juegos — teaser */}
       <div className="mt-16">
         <p className="kora-eyebrow">En la huerta</p>
         <h2 className="mt-2 text-2xl font-bold tracking-tight text-moss">Próximos juegos</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          {[
-            {
-              title: "Memoria del Mercado",
-              copy: "Encuentra las parejas de la cosecha antes de que cierre el nodo.",
-              character: "egg" as const,
-            },
-            {
-              title: "Carrera del Carrito",
-              copy: "La zanahoria empuja, tú esquivas las góndolas. Próximamente.",
-              character: "coconut" as const,
-            },
-          ].map((g, i) => (
-            <div
-              key={g.title}
-              className={`kora-leaf-card ${i % 2 ? "kora-leaf-card-b" : ""} relative flex items-center gap-4 overflow-hidden p-5 opacity-80`}
-            >
-              <span className="kora-bob h-16 w-14 flex-none" style={{ animationDelay: `${i * 0.4}s` }} aria-hidden="true">
-                <PasilloCharacter name={g.character} />
-              </span>
-              <div className="min-w-0">
-                <p className="w-fit rounded-[0.6rem_0.2rem_0.6rem_0.2rem] bg-moss/8 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide2 text-moss/60">
-                  Pronto
-                </p>
-                <h3 className="mt-1 font-bold text-moss">{g.title}</h3>
-                <p className="text-xs text-charcoal/55">{g.copy}</p>
-              </div>
+          <div className="kora-leaf-card relative flex items-center gap-4 overflow-hidden p-5 opacity-80">
+            <span className="kora-bob h-16 w-14 flex-none" aria-hidden="true">
+              <PasilloCharacter name="coconut" />
+            </span>
+            <div className="min-w-0">
+              <p className="w-fit rounded-[0.6rem_0.2rem_0.6rem_0.2rem] bg-moss/8 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide2 text-moss/60">
+                Pronto
+              </p>
+              <h3 className="mt-1 font-bold text-moss">Carrera del Carrito</h3>
+              <p className="text-xs text-charcoal/55">La zanahoria empuja, tú esquivas las góndolas. Próximamente.</p>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>

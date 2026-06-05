@@ -384,6 +384,43 @@
   animation: kora-lid 3.6s ease-in-out infinite;
 }
 
+/* Memoria del Mercado — niega con la cabeza al fallar, celebra al acertar */
+@keyframes kora-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-5px) rotate(-1.5deg);
+  }
+  40% {
+    transform: translateX(5px) rotate(1.5deg);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+.kora-shake {
+  animation: kora-shake 0.45s ease-in-out;
+}
+@keyframes kora-match-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.12) rotate(2deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.kora-match-pop {
+  animation: kora-match-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 /* Vitrina — la zanahoria cruza la calle a saltitos y entra al nodo */
 @keyframes kora-hop-in {
   0% {
