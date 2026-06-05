@@ -4,6 +4,8 @@ import TierCharacter from "@/components/TierCharacter";
 import CardsManager from "@/components/CardsManager";
 import ProductRail from "@/components/ProductRail";
 import SavedRecipesSection from "@/components/SavedRecipesSection";
+import Link from "next/link";
+import PasilloCharacter from "@/components/PasilloCharacter";
 import { member, cop } from "@/lib/data";
 import { productById } from "@/lib/shop";
 import type { Product } from "@/lib/types";
@@ -235,6 +237,38 @@ export default function AccountPage() {
           />
         </div>
       )}
+
+      {/* ── Sala de juegos — un descanso con la cosecha ── */}
+      <Link
+        href="/juegos"
+        className="group kora-grain relative mt-12 flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-[2rem_0.8rem_2rem_0.8rem] bg-gradient-to-br from-moss-900 via-moss to-moss-700 p-6 text-alabaster shadow-lift transition-transform hover:-translate-y-1 sm:p-8"
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-2 -top-5 select-none text-[clamp(3rem,9vw,6rem)] font-black leading-none tracking-tightest text-alabaster/[0.06]"
+        >
+          Juegos
+        </span>
+        <div className="relative">
+          <p className="kora-eyebrow text-sprout-light">Sala de juegos</p>
+          <h2 className="mt-1 text-2xl font-bold tracking-tight">¿Un descanso? Juega La Cosecha.</h2>
+          <p className="mt-1 max-w-sm text-sm text-alabaster/70">
+            Atrapa los personajes con la canasta y esquiva la bolsa plástica.
+          </p>
+        </div>
+        <div className="relative flex items-center gap-3">
+          <div className="flex items-end" aria-hidden="true">
+            {(["avocado", "egg", "coconut"] as const).map((n, i) => (
+              <span key={n} className="kora-bob -ml-2 h-14 w-12 first:ml-0" style={{ animationDelay: `${i * 0.35}s` }}>
+                <PasilloCharacter name={n} />
+              </span>
+            ))}
+          </div>
+          <span className="rounded-[1rem_0.35rem_1rem_0.35rem] bg-sprout px-4 py-2 text-sm font-bold text-white transition-all duration-300 group-hover:rounded-[0.35rem_1rem_0.35rem_1rem]">
+            Jugar →
+          </span>
+        </div>
+      </Link>
     </div>
   );
 }
