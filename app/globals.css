@@ -1,0 +1,426 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --kora-alabaster: #f7f5f0;
+  --kora-travertine: #efeae0;
+  --kora-moss: #2c3e2b;
+  --kora-sprout: #76a035;
+  --kora-charcoal: #1a1a1a;
+  --kora-walnut: #6b4f34;
+  --kora-steel: #222220;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--kora-alabaster);
+    color: var(--kora-charcoal);
+    font-feature-settings: "cv11", "ss01";
+  }
+  /* Radical Reductionism: structured, geometric headings, tight tracking */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.03em;
+  }
+  ::selection {
+    background-color: var(--kora-sprout);
+    color: #fff;
+  }
+  /* Quiet, premium scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(44, 62, 43, 0.22);
+    border-radius: 999px;
+    border: 3px solid var(--kora-alabaster);
+  }
+}
+
+@layer components {
+  /* Section shell — generous gutters, the digital decompression zone */
+  .kora-shell {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Eyebrow / gallery label — architectural spaced caps */
+  .kora-eyebrow {
+    @apply text-[11px] font-medium uppercase tracking-wide2 text-sprout;
+  }
+  .kora-gallery-label {
+    @apply text-[10px] font-medium uppercase tracking-wide3 text-moss/45;
+  }
+
+  /* Primary CTA — sprout accent, leaf-cut geometry: two corners bloom, two
+     stay tight. On hover the leaf flips — a small, alive gesture instead of
+     the generic pill. */
+  .kora-cta {
+    @apply inline-flex items-center justify-center gap-2 bg-sprout px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-sprout-dark hover:shadow-lift active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50;
+    border-radius: 1.4rem 0.45rem 1.4rem 0.45rem;
+  }
+  .kora-cta:hover {
+    border-radius: 0.45rem 1.4rem 0.45rem 1.4rem;
+  }
+  .kora-cta-ghost {
+    @apply inline-flex items-center justify-center gap-2 border border-moss/20 bg-transparent px-6 py-3 text-sm font-semibold text-moss transition-all duration-300 hover:border-moss/40 hover:bg-moss/5 active:scale-[0.97];
+    border-radius: 1.4rem 0.45rem 1.4rem 0.45rem;
+  }
+  .kora-cta-ghost:hover {
+    border-radius: 0.45rem 1.4rem 0.45rem 1.4rem;
+  }
+
+  /* Card surface — gallery plinth */
+  .kora-card {
+    @apply rounded-kora bg-white shadow-soft ring-1 ring-moss/5;
+  }
+
+  /* Tarjeta hoja — la geometría leaf-cut de los CTAs llevada a las tarjetas
+     de producto, receta y categoría. La variante -b espeja la hoja; alternadas
+     por tarjeta, la grilla se siente puesta a mano y no generada. Al pasar el
+     mouse, la hoja gira hacia el otro lado. */
+  .kora-leaf-card {
+    @apply bg-white shadow-soft ring-1 ring-moss/5;
+    border-radius: 1.7rem 0.7rem 1.7rem 0.7rem;
+    transition:
+      border-radius 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .kora-leaf-card:hover {
+    border-radius: 0.7rem 1.7rem 0.7rem 1.7rem;
+  }
+  .kora-leaf-card-b {
+    border-radius: 0.7rem 1.7rem 0.7rem 1.7rem;
+  }
+  .kora-leaf-card-b:hover {
+    border-radius: 1.7rem 0.7rem 1.7rem 0.7rem;
+  }
+
+  /* Matte-black steel frame — the recessed chiller / monolith treatment */
+  .kora-frame {
+    @apply relative rounded-kora bg-steel p-2 shadow-lift;
+  }
+
+  /* Hairline — strict geometry dividers */
+  .kora-hairline {
+    @apply border-moss/10;
+  }
+}
+
+@layer utilities {
+  /* Solid walnut wood surface */
+  .surface-walnut {
+    background-color: #6b4f34;
+    background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.06) 0%, rgba(0, 0, 0, 0.12) 100%),
+      repeating-linear-gradient(91deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 1px, transparent 1px, transparent 7px);
+  }
+  /* Sandblasted concrete surface */
+  .surface-concrete {
+    background-color: #d9d5cc;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+  /* Recessed diffuse-LED halo behind a hero product */
+  .halo-light::before {
+    content: "";
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 70%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+  }
+}
+
+/* Cinta marquee del footer — texto en loop infinito (dos copias, -50%) */
+@keyframes kora-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.kora-marquee {
+  animation: kora-marquee 32s linear infinite;
+}
+.kora-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ── Celebración de pedido — el brote crece y la zanahoria saluda ── */
+@keyframes kora-stem-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes kora-leaf-pop {
+  0% {
+    transform: scale(0) rotate(-24deg);
+  }
+  70% {
+    transform: scale(1.18) rotate(6deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+@keyframes kora-veggie-pop {
+  0% {
+    transform: translateY(46px);
+  }
+  65% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes kora-silly-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(3.5deg);
+  }
+  75% {
+    transform: rotate(-3.5deg);
+  }
+}
+@keyframes kora-blink {
+  0%,
+  91%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.08);
+  }
+}
+.kora-stem {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: kora-stem-draw 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}
+.kora-leaf {
+  transform: scale(0);
+  animation: kora-leaf-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.kora-veggie {
+  animation: kora-veggie-pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.35s both;
+}
+.kora-wiggle {
+  animation: kora-silly-wiggle 2.6s ease-in-out 2.2s infinite;
+}
+.kora-blink {
+  animation: kora-blink 3.4s ease-in-out 2.4s infinite;
+}
+
+/* Canasta vacía — el tomate suspira y su hoja se mece */
+@keyframes kora-sigh {
+  0%,
+  84%,
+  100% {
+    transform: scale(1, 1);
+  }
+  89% {
+    transform: scale(1.06, 0.93) translateY(2px);
+  }
+  94% {
+    transform: scale(0.98, 1.04);
+  }
+}
+.kora-sigher {
+  animation: kora-sigh 4.6s ease-in-out 0.8s infinite;
+}
+@keyframes kora-sway {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+.kora-sway {
+  animation: kora-sway 3.2s ease-in-out infinite;
+}
+
+/* Canasta vacía — el tomate se aburre tanto que pega un brinco */
+@keyframes kora-bored-jump {
+  0%,
+  58%,
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  63% {
+    transform: translateY(3px) scale(1.1, 0.88);
+  }
+  70% {
+    transform: translateY(-22px) scale(0.93, 1.1);
+  }
+  77% {
+    transform: translateY(0) scale(1.08, 0.9);
+  }
+  82% {
+    transform: translateY(0) scale(1, 1);
+  }
+}
+.kora-jumper {
+  animation: kora-bored-jump 4.8s ease-in-out 1s infinite;
+}
+
+/* Cuenta — el aguacate saluda con su hojita */
+@keyframes kora-wave {
+  0%,
+  55%,
+  100% {
+    transform: rotate(0deg);
+  }
+  65% {
+    transform: rotate(30deg);
+  }
+  75% {
+    transform: rotate(-8deg);
+  }
+  85% {
+    transform: rotate(24deg);
+  }
+}
+.kora-waver {
+  animation: kora-wave 3.2s ease-in-out 0.6s infinite;
+}
+
+/* Pasillos — los personajes flotan suave en su tile */
+@keyframes kora-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.kora-bob {
+  animation: kora-bob 3.2s ease-in-out infinite;
+}
+
+/* Tienda — el desfile del carrito cruza el hero */
+@keyframes kora-stroll {
+  from {
+    left: -22%;
+  }
+  to {
+    left: 104%;
+  }
+}
+.kora-stroller {
+  animation: kora-stroll 18s linear infinite;
+}
+@keyframes kora-roll {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.kora-roll {
+  animation: kora-roll 1.4s linear infinite;
+}
+
+/* Recetas — la olla burbujea: vapor sube, la tapa brinca */
+@keyframes kora-steam {
+  0% {
+    transform: translateY(8px) scale(0.7);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(-18px) scale(1.2);
+    opacity: 0;
+  }
+}
+.kora-steam {
+  animation: kora-steam 2.8s ease-out infinite;
+}
+@keyframes kora-lid {
+  0%,
+  74%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  80% {
+    transform: translateY(-4px) rotate(-2.5deg);
+  }
+  86% {
+    transform: translateY(0) rotate(1.5deg);
+  }
+  91% {
+    transform: translateY(-2px) rotate(-1deg);
+  }
+}
+.kora-lid {
+  animation: kora-lid 3.6s ease-in-out infinite;
+}
+
+/* Vitrina — la zanahoria cruza la calle a saltitos y entra al nodo */
+@keyframes kora-hop-in {
+  0% {
+    transform: translate(-150px, 0);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  12% {
+    transform: translate(-118px, -11px);
+  }
+  22% {
+    transform: translate(-88px, 0);
+  }
+  32% {
+    transform: translate(-58px, -11px);
+  }
+  42% {
+    transform: translate(-28px, 0);
+  }
+  52% {
+    transform: translate(0px, -11px);
+  }
+  60% {
+    transform: translate(18px, 0);
+    opacity: 1;
+  }
+  70% {
+    transform: translate(30px, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(30px, 0);
+    opacity: 0;
+  }
+}
+.kora-hopper {
+  animation: kora-hop-in 6s ease-in-out infinite;
+}
+
+/* Subtle film grain — the lit, architectural store atmosphere */
+.kora-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}

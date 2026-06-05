@@ -2,7 +2,8 @@
 
 Responsive, mobile-first web app for **KORA · Foods & Provisions** — an urban,
 tech-driven convenience-nutrition mini-market in Bogotá. Built with Next.js (App
-Router) + Tailwind CSS. All data is dummy/placeholder.
+Router) + TypeScript (strict) + Tailwind CSS. All data is dummy/placeholder.
+Domain types live in `lib/types.ts`; data in `lib/data.ts` + `lib/shop.ts`.
 
 ## Run it
 
@@ -45,20 +46,20 @@ Typeface: **Roboto** (via `next/font`). Tokens live in `tailwind.config.js`.
 
 All photography renders through `<Photo imageKey="…" />`. The app ships with
 committed SVG placeholders; real HD photography is git-ignored. **Full spec:**
-visit `/image-format` or read `app/image-format/page.js` and
+visit `/image-format` or read `app/image-format/page.tsx` and
 `public/photography/README.md`.
 
 ## Structure
 
 ```
 app/                 routes (App Router)
-  page.js            home — hero + recipe engine
+  page.tsx            home — hero + recipe engine
   recipes/[id]/      recipe detail + ingredient bundle
   account/           KORA Pass dashboard
   checkout/          cart + fulfillment selector
   image-format/      image asset contract (docs)
 components/          Photo, MacroPill, RecipeCard, IngredientBundle,
                      FulfillmentSelector, KoraPass, Nav, Footer, CartProvider …
-lib/data.js          all dummy data + helpers
+lib/data.ts          all dummy data + helpers
 ```
 # kora
