@@ -59,7 +59,7 @@ export default function AccountPage() {
         >
           Cuenta
         </span>
-        <div className="relative flex flex-col items-start gap-2 px-6 py-7 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="relative flex flex-col items-start gap-2 px-5 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-7">
           <div>
             <p className="kora-eyebrow text-sprout-light">Panel del miembro</p>
             <h1 className="mt-1 text-3xl font-black tracking-tightest sm:text-4xl">
@@ -127,7 +127,10 @@ export default function AccountPage() {
             </div>
 
             {/* La escalera — todos los niveles, sus personajes y beneficios */}
-            <div className="overflow-x-auto border-t border-moss/8 bg-alabaster/50 px-5 py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <p className="border-t border-moss/8 bg-alabaster/50 px-5 pt-4 text-[10px] font-semibold uppercase tracking-wide2 text-charcoal/35 sm:hidden">
+              Desliza para ver todos los niveles →
+            </p>
+            <div className="overflow-x-auto bg-alabaster/50 px-5 py-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:border-t sm:border-moss/8">
               <div className="flex min-w-[680px]">
                 {TIERS.map((t, i) => {
                   const achieved = member.points >= t.at;
@@ -176,7 +179,7 @@ export default function AccountPage() {
           </div>
 
           <div className="kora-card overflow-hidden">
-            <div className="flex items-center justify-between border-b border-moss/8 px-5 py-4">
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-moss/8 px-5 py-4">
               <div>
                 <p className="kora-eyebrow">Historial en tiempo real</p>
                 <h3 className="text-lg font-bold text-moss">Online y en tienda, unificados</h3>

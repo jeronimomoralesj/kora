@@ -5,8 +5,8 @@ import SearchBar from "@/components/SearchBar";
 import { useCart } from "@/components/CartProvider";
 
 // Buscador flotante — aparece abajo cuando el buscador principal (anchorRef)
-// queda por encima del viewport. Se acomoda sobre la barra de canasta si hay
-// productos agregados.
+// queda por encima del viewport. Al enfocarlo salta arriba (bajo el nav) para
+// que el teclado del celular no lo tape y siempre veas lo que escribes.
 interface FloatingSearchProps {
   anchorRef: React.RefObject<HTMLDivElement | null>;
   defaultValue?: string;
@@ -14,6 +14,7 @@ interface FloatingSearchProps {
 
 export default function FloatingSearch({ anchorRef, defaultValue = "" }: FloatingSearchProps) {
   const [show, setShow] = useState(false);
+  const [focused, setFocused] = useState(false);
   const { count } = useCart();
 
   useEffect(() => {
@@ -30,7 +31,19 @@ export default function FloatingSearch({ anchorRef, defaultValue = "" }: Floatin
   if (!show) return null;
 
   return (
-    <div className={`fixed inset-x-0 z-40 flex justify-center px-4 ${count > 0 ? "bottom-20" : "bottom-4"}`}>
+    <div
+      className={`fixed inset-x-0 z-40 flex justify-center px-4 ${
+        focused ? "top-20" : count > 0 ? "bottom-20" : "bottom-4"
+      }`}
+      onFocusCapture={() => setFocused(true)}
+      onBlurCapture={(e) => {
+        // Vuelve abajo solo cuando el foco sale del buscador por completo
+        // (no al pasar del input al botón "Buscar").
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
+      }}
+    >
+      {/* Importante: el input NO se re-monta al reubicarse — conserva el foco,
+          el teclado y lo escrito mientras salta de abajo hacia arriba. */}
       <div className="w-full max-w-md animate-fade-up rounded-full shadow-lift">
         <SearchBar defaultValue={defaultValue} />
       </div>

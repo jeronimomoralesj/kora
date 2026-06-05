@@ -13,7 +13,7 @@ export default function SavedRecipesSection() {
 
   return (
     <section className="mt-12">
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
         <div>
           <p className="kora-eyebrow">Tu recetario</p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-moss">

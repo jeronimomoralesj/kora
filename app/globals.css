@@ -33,6 +33,16 @@
     background-color: var(--kora-sprout);
     color: #fff;
   }
+  /* iOS hace zoom automático en inputs con fuente < 16px y descuadra la
+     página. En mobile forzamos 16px en todo campo de texto; el layout de
+     cada input ya tolera el cambio. (!important para ganarle a text-sm.) */
+  @media (max-width: 639px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
   /* Quiet, premium scrollbar */
   ::-webkit-scrollbar {
     width: 10px;
