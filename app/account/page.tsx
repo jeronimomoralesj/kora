@@ -84,7 +84,7 @@ export default function AccountPage() {
       <div className="mt-8 grid gap-6 lg:grid-cols-12">
         {/* Pass + billetera */}
         <div className="min-w-0 space-y-8 lg:col-span-5 xl:col-span-4">
-          <KoraPass member={member} />
+          <KoraPass member={member} customizable />
           <CardsManager />
         </div>
 

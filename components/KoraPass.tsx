@@ -1,15 +1,134 @@
 "use client";
 
-import { useState } from "react";
-import type { MouseEvent } from "react";
+import { useEffect, useState } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import Logo from "@/components/Logo";
+import PasilloCharacter from "@/components/PasilloCharacter";
 import type { Member } from "@/lib/types";
 
 // KORA Pass — la tarjeta de membresía física, en digital. Frente tipo tarjeta
 // premium; al tocarla gira y muestra el QR + número para el lector de caja.
-export default function KoraPass({ member, dark = false }: { member: Member; dark?: boolean }) {
+// El miembro elige el estilo del frente: de la formal a la de los personajes.
+
+type ThemeId = "clasica" | "cosecha" | "sprout" | "nocturna";
+
+interface PassTheme {
+  id: ThemeId;
+  name: string;
+  tagline: string;
+  card: string; // fondo + tinta base del frente
+  ring: string;
+  shine: string;
+  faint: string; // labels suaves
+  soft: string; // nfc / secundarios
+  avatar: string;
+  deco?: ReactNode;
+}
+
+const PASS_THEMES: PassTheme[] = [
+  {
+    id: "clasica",
+    name: "Clásica",
+    tagline: "la formal, de musgo profundo",
+    card: "bg-gradient-to-br from-moss-900 via-moss to-moss-700 text-alabaster",
+    ring: "ring-1 ring-white/10",
+    shine: "bg-white/5",
+    faint: "text-alabaster/55",
+    soft: "text-alabaster/60",
+    avatar: "bg-alabaster/10 ring-alabaster/25",
+  },
+  {
+    id: "cosecha",
+    name: "Cosecha",
+    tagline: "con los personajes de pasillo",
+    card: "bg-gradient-to-br from-white via-alabaster to-travertine text-moss",
+    ring: "ring-1 ring-moss/15",
+    shine: "bg-sprout/10",
+    faint: "text-moss/50",
+    soft: "text-moss/50",
+    avatar: "bg-moss/8 ring-moss/20",
+    deco: (
+      <span className="pointer-events-none absolute right-3 top-8 flex items-end -space-x-2" aria-hidden="true">
+        {(["egg", "avocado", "coconut"] as const).map((n, i) => (
+          <span key={n} className="kora-bob h-10 w-9" style={{ animationDelay: `${i * 0.4}s` }}>
+            <PasilloCharacter name={n} />
+          </span>
+        ))}
+      </span>
+    ),
+  },
+  {
+    id: "sprout",
+    name: "Sprout",
+    tagline: "la vibrante, verde total",
+    card: "bg-gradient-to-br from-sprout-dark via-sprout to-sprout-light text-white",
+    ring: "ring-1 ring-white/25",
+    shine: "bg-white/15",
+    faint: "text-white/65",
+    soft: "text-white/70",
+    avatar: "bg-white/15 ring-white/30",
+    deco: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="pointer-events-none absolute -bottom-8 -right-5 h-36 w-36 rotate-12 text-white/10"
+        aria-hidden="true"
+      >
+        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8a10 10 0 0 1-10 10Z" />
+      </svg>
+    ),
+  },
+  {
+    id: "nocturna",
+    name: "Nocturna",
+    tagline: "modo PULSE, acero y neón",
+    card: "bg-gradient-to-br from-[#141414] via-steel to-[#26261f] text-alabaster",
+    ring: "ring-1 ring-sprout/30",
+    shine: "bg-sprout/10",
+    faint: "text-alabaster/45",
+    soft: "text-sprout-light/70",
+    avatar: "bg-sprout/15 ring-sprout/40 text-sprout-light",
+    deco: (
+      <span
+        className="pointer-events-none absolute -bottom-12 -left-10 h-36 w-36 rounded-full bg-sprout/20 blur-2xl"
+        aria-hidden="true"
+      />
+    ),
+  },
+];
+
+const THEME_KEY = "kora-pass-style";
+
+export default function KoraPass({
+  member,
+  dark = false,
+  customizable = false,
+}: {
+  member: Member;
+  dark?: boolean;
+  customizable?: boolean;
+}) {
   const [flipped, setFlipped] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [themeId, setThemeId] = useState<ThemeId>("clasica");
+
+  // El estilo elegido vive en el navegador — la tarjeta se ve igual en
+  // la cuenta y en la página del Pass.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(THEME_KEY) as ThemeId | null;
+      if (raw && PASS_THEMES.some((t) => t.id === raw)) setThemeId(raw);
+    } catch {}
+  }, []);
+
+  const pickTheme = (id: ThemeId) => {
+    setThemeId(id);
+    try {
+      localStorage.setItem(THEME_KEY, id);
+    } catch {}
+  };
+
+  const t = PASS_THEMES.find((x) => x.id === themeId) ?? PASS_THEMES[0];
 
   const grid = buildMatrix(member.passId, 25);
   const pretty = member.phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
@@ -50,15 +169,18 @@ export default function KoraPass({ member, dark = false }: { member: Member; dar
             flipped ? "[transform:rotateY(180deg)]" : ""
           }`}
         >
-          {/* ── Frente ── */}
-          <div className="kora-grain absolute inset-0 flex flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-moss-900 via-moss to-moss-700 p-4 text-alabaster shadow-lift ring-1 ring-white/10 [backface-visibility:hidden] sm:p-5">
+          {/* ── Frente — viste el estilo elegido ── */}
+          <div
+            className={`kora-grain absolute inset-0 flex flex-col justify-between overflow-hidden rounded-2xl p-4 shadow-lift [backface-visibility:hidden] sm:p-5 ${t.card} ${t.ring}`}
+          >
             {/* brillo diagonal */}
-            <div className="pointer-events-none absolute -inset-x-10 -top-16 h-40 rotate-[-12deg] bg-white/5 blur-2xl" />
+            <div className={`pointer-events-none absolute -inset-x-10 -top-16 h-40 rotate-[-12deg] blur-2xl ${t.shine}`} />
+            {t.deco}
 
             <div className="relative flex items-start justify-between">
               <span className="flex flex-col leading-none">
-                <Logo className="text-xl text-alabaster" />
-                <span className="mt-1 text-[8px] font-medium uppercase tracking-wide3 text-alabaster/55">
+                <Logo className="text-xl text-current" />
+                <span className={`mt-1 text-[8px] font-medium uppercase tracking-wide3 ${t.faint}`}>
                   Foods &amp; Provisions
                 </span>
               </span>
@@ -74,25 +196,25 @@ export default function KoraPass({ member, dark = false }: { member: Member; dar
                 <span className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-black/25" />
                 <span className="absolute inset-1.5 rounded-sm border border-black/20" />
               </span>
-              <NfcWaves className="text-alabaster/60" />
+              <NfcWaves className={t.soft} />
             </div>
 
             <div className="relative">
               <p className="font-mono text-xl font-bold tracking-[0.12em] tabular-nums sm:text-2xl sm:tracking-[0.14em]">{pretty}</p>
               <div className="mt-2 flex items-end justify-between gap-3 sm:mt-3">
                 <div className="min-w-0">
-                  <p className="text-[9px] font-medium uppercase tracking-wide2 text-alabaster/50">Miembro</p>
+                  <p className={`text-[9px] font-medium uppercase tracking-wide2 ${t.faint}`}>Miembro</p>
                   <p className="truncate text-xs font-bold uppercase tracking-wide2 sm:text-sm">{member.name}</p>
-                  <p className="mt-0.5 text-[10px] text-alabaster/50">Desde {member.joined}</p>
+                  <p className={`mt-0.5 text-[10px] ${t.faint}`}>Desde {member.joined}</p>
                 </div>
-                <span className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-alabaster/10 text-sm font-black ring-1 ring-alabaster/25 sm:h-11 sm:w-11">
+                <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-full text-sm font-black ring-1 sm:h-11 sm:w-11 ${t.avatar}`}>
                   {initials}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* ── Reverso — QR + número para el lector ── */}
+          {/* ── Reverso — QR + número para el lector (igual en todos los estilos) ── */}
           <div className="absolute inset-0 flex flex-col overflow-hidden rounded-2xl bg-white shadow-lift ring-1 ring-moss/10 [backface-visibility:hidden] [transform:rotateY(180deg)]">
             {/* banda magnética */}
             <div className="h-7 w-full flex-none bg-steel" />
@@ -156,6 +278,44 @@ export default function KoraPass({ member, dark = false }: { member: Member; dar
       <p className={`mt-3 text-center text-xs ${dark ? "text-alabaster/55" : "text-charcoal/45"}`}>
         {flipped ? "Toca la tarjeta para volver al frente." : "Toca la tarjeta para mostrar tu código en caja."}
       </p>
+
+      {/* ── Estilo de la tarjeta — elige tu frente ── */}
+      {customizable && (
+        <div className="mt-5">
+          <p className="text-[11px] font-semibold uppercase tracking-wide2 text-charcoal/40">
+            Estilo de tu tarjeta
+          </p>
+          <div className="mt-2 flex flex-wrap items-center gap-2.5">
+            {PASS_THEMES.map((theme) => (
+              <button
+                key={theme.id}
+                onClick={() => pickTheme(theme.id)}
+                aria-label={`Estilo ${theme.name}`}
+                aria-pressed={theme.id === themeId}
+                className={`relative h-11 w-[4.5rem] overflow-hidden rounded-[0.7rem_0.25rem_0.7rem_0.25rem] transition-all ${theme.card} ${
+                  theme.id === themeId
+                    ? "ring-2 ring-sprout ring-offset-2 ring-offset-alabaster"
+                    : "ring-1 ring-moss/15 hover:ring-moss/35"
+                }`}
+              >
+                {theme.id === themeId && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="absolute bottom-1 right-1 h-3.5 w-3.5 opacity-80"
+                    aria-hidden="true"
+                  >
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8a10 10 0 0 1-10 10Z" />
+                  </svg>
+                )}
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-xs text-charcoal/45">
+            <span className="font-semibold text-moss">{t.name}</span> — {t.tagline}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
