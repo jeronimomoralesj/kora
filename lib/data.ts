@@ -285,8 +285,8 @@ export const deliveryWindows: DeliveryWindow[] = [
 
 // El miembro con sesión iniciada (dummy).
 export const member: Member = {
-  name: "Valentina Ríos",
-  handle: "@valen.rios",
+  name: "Padmé Amidala",
+  handle: "@padme.amidala",
   phone: "3001234567", // identificador KORA Pass de 10 dígitos
   passId: "KORA-3001234567",
   tier: "Sprout",

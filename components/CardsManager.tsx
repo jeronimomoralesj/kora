@@ -25,8 +25,8 @@ interface WalletState {
 const DEFAULT_STATE: WalletState = {
   defaultId: "c-1",
   cards: [
-    { id: "c-1", brand: "Visa", last4: "4242", holder: "Valentina Ríos", exp: "08/27" },
-    { id: "c-2", brand: "Mastercard", last4: "8810", holder: "Valentina Ríos", exp: "01/26" },
+    { id: "c-1", brand: "Visa", last4: "4242", holder: "Padmé Amidala", exp: "08/27" },
+    { id: "c-2", brand: "Mastercard", last4: "8810", holder: "Padmé Amidala", exp: "01/26" },
   ],
 };
 

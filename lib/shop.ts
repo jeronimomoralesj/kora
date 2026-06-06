@@ -216,7 +216,7 @@ export const recipesWithProduct = (productId: string): Recipe[] => {
 // Reseñas (dummy) — prueba social. Se rotan por producto para variar.
 export const productReviews: ProductReview[] = [
   { name: "Mateo G.", initials: "MG", rating: 5, date: "hace 3 días", title: "Mi compra fija de la semana", text: "Frescura impecable y llegó listo para recoger en 10 minutos. La calidad se nota apenas lo abres." },
-  { name: "Valentina R.", initials: "VR", rating: 5, date: "hace 1 semana", title: "Calidad premium real", text: "Se siente como un mercado boutique. El producto es honesto, sin azúcares raros, y el empaque es hermoso." },
+  { name: "Padmé A.", initials: "PA", rating: 5, date: "hace 1 semana", title: "Calidad premium real", text: "Se siente como un mercado boutique. El producto es honesto, sin azúcares raros, y el empaque es hermoso." },
   { name: "Daniela P.", initials: "DP", rating: 4, date: "hace 2 semanas", title: "Excelente, repito", text: "Cumple justo lo que promete en macros. Volvería a comprarlo sin pensarlo, ideal para el post-entreno." },
   { name: "Andrés M.", initials: "AM", rating: 5, date: "hace 4 días", title: "Vale cada peso", text: "Lo uso a diario. Limpio, fresco y la app hace todo el proceso sin fricción. Recomendado." },
   { name: "Camila S.", initials: "CS", rating: 5, date: "hace 5 días", title: "Mi nuevo favorito", text: "Sabor real, nada artificial. Se nota el cuidado en la selección. KORA se volvió mi parada obligada." },
